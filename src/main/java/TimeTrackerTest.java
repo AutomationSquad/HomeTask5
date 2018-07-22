@@ -5,12 +5,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
-public class TimeTrackerTest extends BaseTest {
+class TimeTrackerTest extends BaseTest {
 
-    By successMessage = By.cssSelector(".success-alert");
+    private By successMessage = By.cssSelector(".success-alert");
 
     // MODAL WINDOWS O_O
-    public void closeUnlockedWeekModal(By locator) {
+    private void closeUnlockedWeekModal(By locator) {
 
 
         By closeModalButton = By.cssSelector(".close");
@@ -29,7 +29,7 @@ public class TimeTrackerTest extends BaseTest {
         }
     }
 
-    public void closeInternalServerErrorModal(By locator) {
+    private void closeInternalServerErrorModal(By locator) {
 
         By errorWindow = By.cssSelector(".error-alert");
         By closeAlertButton = By.cssSelector(".btn-primary");
@@ -49,7 +49,7 @@ public class TimeTrackerTest extends BaseTest {
 
 
     @Test
-    public void testFromLecture() {
+    void testFromLecture() {
 
 
         // VARIABLE-LOCATORS
@@ -117,13 +117,13 @@ public class TimeTrackerTest extends BaseTest {
                     .withMessage("The request isn't deleted!!")
                     .ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
                     .until((ExpectedConditions.presenceOfElementLocated((By) currentRemoveIcon)));
-        } catch (ClassCastException e) {
+        } catch (ClassCastException ignored) {
         }
 
     }
 
     @Test
-    public void testTaskAddingAndDeleting() {
+    void testTaskAddingAndDeleting() {
 
         // VARIABLE-LOCATORS
         By addTaskButton = By.cssSelector(".btn.form-control");
@@ -160,14 +160,14 @@ public class TimeTrackerTest extends BaseTest {
                     .withMessage("The task isn't deleted!!")
                     .ignoring(StaleElementReferenceException.class, NoSuchElementException.class)
                     .until((ExpectedConditions.presenceOfElementLocated((By) currentRemoveIcon)));
-        } catch (ClassCastException e) {
+        } catch (ClassCastException ignored) {
         }
     }
 
 
 
     @Test
-    public void changingDataInTheProfile() {
+    void changingDataInTheProfile() {
 
         By accountMenu = By.cssSelector(".dropdown");
         By profileLink = By.xpath("//a[@href = '/profile']");
@@ -197,8 +197,8 @@ public class TimeTrackerTest extends BaseTest {
                         driver.findElement(successMessage).isDisplayed());
         getElementWait().until(ExpectedConditions.invisibilityOfElementLocated(successMessage));
 
-        Assertions.assertTrue(driver.findElement(phoneField).getAttribute("value").equals(newPhone), "The phone isn't changed");
-        Assertions.assertTrue(driver.findElement(nameField).getAttribute("value").equals(newName), "The name isn't changed");
+        Assertions.assertEquals(driver.findElement(phoneField).getAttribute("value"), newPhone, "The phone isn't changed");
+        Assertions.assertEquals(driver.findElement(nameField).getAttribute("value"), newName, "The name isn't changed");
 
 
     }
