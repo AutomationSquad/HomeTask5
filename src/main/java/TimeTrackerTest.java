@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class TimeTrackerTest extends BaseTest {
 
+    By successMessage = By.cssSelector(".success-alert");
+
     // MODAL WINDOWS O_O
     public void closeUnlockedWeekModal(By locator) {
 
@@ -59,7 +61,6 @@ public class TimeTrackerTest extends BaseTest {
         By dayStatusDropDwn = By.id("select2-drop");
         By dayStatusVacation = By.xpath("//*[@class='select2-result-label' and text()='Vacation']");
         By requestButton = By.cssSelector(".btn-success");
-        By successMessage = By.cssSelector(".success-alert");
         By requestShowing = By.xpath("//*[contains(text(), '2018-08-10 - 2018-08-20')]");
         By removeIcon = By.xpath("//*[@title='Remove']");
 
@@ -122,7 +123,7 @@ public class TimeTrackerTest extends BaseTest {
     }
 
     @Test
-    public void firstTest() {
+    public void testTaskAddingAndDeleting() {
 
         // VARIABLE-LOCATORS
         By addTaskButton = By.cssSelector(".btn.form-control");
@@ -164,17 +165,41 @@ public class TimeTrackerTest extends BaseTest {
     }
 
 
-    //BLOCKED BY THE "Project not found." ERROR WINDOWS ON THE "USERS" TAB
+
     @Test
-    public void secondTest() {
+    public void changingDataInTheProfile() {
 
-        By users = By.xpath("//*[contains(text(), 'Users')]");
+        By accountMenu = By.cssSelector(".dropdown");
+        By profileLink = By.xpath("//a[@href = '/profile']");
+        By nameField = By.xpath("//input[contains(@data-bind, 'value: name')]");
+        By phoneField = By.xpath("//input[contains(@data-bind, 'value: phone')]");
+        By saveButton = By.xpath("//span[contains(@class, 'glyphicon-save')]/parent::*");
+        String newName = "BoFot";
+        String newPhone = "0000000000";
 
-        getElementWait().withMessage("Failed to find 'Users' element")
+        getElementWait().withMessage("Failed to find account menu")
                 .ignoring(NoSuchElementException.class, StaleElementReferenceException.class)
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(users));
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(accountMenu));
 
-        closeUnlockedWeekModal(users);
+        closeUnlockedWeekModal(accountMenu);
+        driver.findElement(profileLink).click();
+
+        getElementWait()
+                .until(ExpectedConditions.elementToBeClickable(nameField));
+
+        driver.findElement(nameField).sendKeys(Keys.chord(Keys.CONTROL, "a"), newName);
+        driver.findElement(phoneField).sendKeys(Keys.chord(Keys.CONTROL, "a"), newPhone);
+        driver.findElement(saveButton).click();
+
+        getElementWait()
+                .withMessage("'Success' message is not dispayed.")
+                .until((ExpectedCondition<Boolean>) input ->
+                        driver.findElement(successMessage).isDisplayed());
+        getElementWait().until(ExpectedConditions.invisibilityOfElementLocated(successMessage));
+
+        Assertions.assertTrue(driver.findElement(phoneField).getAttribute("value").equals(newPhone), "The phone isn't changed");
+        Assertions.assertTrue(driver.findElement(nameField).getAttribute("value").equals(newName), "The name isn't changed");
+
 
     }
 }
