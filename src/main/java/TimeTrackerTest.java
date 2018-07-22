@@ -6,52 +6,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
 class TimeTrackerTest extends BaseTest {
-
-    private By successMessage = By.cssSelector(".success-alert");
-
-    // MODAL WINDOWS O_O
-    private void closeUnlockedWeekModal(By locator) {
-
-
-        By closeModalButton = By.cssSelector(".close");
-        By modalWindow = By.cssSelector(".modal-dialog");
-
-        try {
-            driver.findElement(locator).click();
-        } catch (WebDriverException e) {
-
-            getElementWait()
-                    .until(ExpectedConditions.elementToBeClickable(closeModalButton));
-            driver.findElement(closeModalButton).click();
-            getElementWait()
-                    .until(ExpectedConditions.invisibilityOf(driver.findElement(modalWindow)));
-            driver.findElement(locator).click();
-        }
-    }
-
-    private void closeInternalServerErrorModal(By locator) {
-
-        By errorWindow = By.cssSelector(".error-alert");
-        By closeAlertButton = By.cssSelector(".btn-primary");
-
-        try {
-            driver.findElement(locator).click();
-        } catch (WebDriverException e) {
-
-            getElementWait()
-                    .until(ExpectedConditions.elementToBeClickable(closeAlertButton));
-            driver.findElement(closeAlertButton).click();
-            getElementWait()
-                    .until(ExpectedConditions.invisibilityOf(driver.findElement(errorWindow)));
-            driver.findElement(locator).click();
-        }
-    }
-
-
     @Test
     void testFromLecture() {
-
-
         // VARIABLE-LOCATORS
         By calendar = By.xpath("//*[contains(text(), 'Calendar')]");
         By requestDayStatus = By.xpath("//*[contains(text(), 'Request day status')]");
@@ -124,7 +80,6 @@ class TimeTrackerTest extends BaseTest {
 
     @Test
     void testTaskAddingAndDeleting() {
-
         // VARIABLE-LOCATORS
         By addTaskButton = By.cssSelector(".btn.form-control");
         By taskNumberField = By.cssSelector(".text-uppercase.input-sm");
@@ -165,10 +120,8 @@ class TimeTrackerTest extends BaseTest {
     }
 
 
-
     @Test
     void changingDataInTheProfile() {
-
         By accountMenu = By.cssSelector(".dropdown");
         By profileLink = By.xpath("//a[@href = '/profile']");
         By nameField = By.xpath("//input[contains(@data-bind, 'value: name')]");
