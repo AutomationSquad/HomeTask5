@@ -8,21 +8,21 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BaseTest {
 
-    protected WebDriver driver;
+    public WebDriver driver;
 
     @BeforeEach
     public void prepare() {
-       System.setProperty("webdriver.chrome.driver", "C:\\selenium\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
 
-    public WebDriverWait getElementWait(){
-        return new WebDriverWait(driver, 10);
+    public WebDriverWait getElementWait(int ms){
+        return new WebDriverWait(driver, ms);
     }
 
     @AfterEach
-    public void tearDown() {
+    public void completeTest() {
         driver.quit();
     }
 }
