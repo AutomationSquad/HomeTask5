@@ -150,6 +150,9 @@ class TimeTrackerTest extends BaseTest {
                         driver.findElement(successMessage).isDisplayed());
         getElementWait().until(ExpectedConditions.invisibilityOfElementLocated(successMessage));
 
+        driver.navigate().refresh();
+        getElementWait()
+                .until(ExpectedConditions.elementToBeClickable(nameField));
         Assertions.assertEquals(driver.findElement(phoneField).getAttribute("value"), newPhone, "The phone isn't changed");
         Assertions.assertEquals(driver.findElement(nameField).getAttribute("value"), newName, "The name isn't changed");
 

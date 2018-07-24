@@ -14,13 +14,17 @@ public class BaseTest {
 
     @BeforeEach
     public void prepare() {
+        By loginField = By.name("username");
+        By passwordField = By.name("password");
+        By submitButton = By.cssSelector("[role='submit']");
+
         System.setProperty("webdriver.chrome.driver", "C:\\selenium\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://qa.reports.spd-ukraine.com/");
-        By loginField = By.name("username");
-        By passwordField = By.name("password");
-        By submitButton = By.cssSelector("[role='submit']");
+
+        getElementWait()
+                .until(ExpectedConditions.elementToBeClickable(loginField));
         driver.findElement(loginField).sendKeys("fot.bohdan.job@gmail.com");
         driver.findElement(passwordField).sendKeys("123456");
         driver.findElement(submitButton).click();
